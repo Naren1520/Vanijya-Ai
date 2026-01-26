@@ -1,0 +1,31 @@
+{
+  "project": {
+    "name": "Vanijya AI - Multilingual Mandi Platform",
+    "description": "AI-powered multilingual platform for Indian mandis with real-time translation and fair pricing",
+    "version": "1.0.0",
+    "type": "nextjs",
+    "framework": "Next.js 14"
+  },
+  "features": {
+    "multilingual": true,
+    "ai_powered": true,
+    "real_time_translation": true,
+    "price_discovery": true,
+    "voice_recognition": true
+  },
+  "languages": [
+    "English",
+    "Hindi", 
+    "Tamil",
+    "Telugu",
+    "Kannada",
+    "Marathi"
+  ],
+  "tech_stack": {
+    "frontend": "Next.js 14 with App Router",
+    "styling": "Tailwind CSS",
+    "animations": "Framer Motion",
+    "language": "TypeScript",
+    "ui_theme": "Glassmorphic with Indian color palette"
+  }
+}
