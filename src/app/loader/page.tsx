@@ -30,7 +30,7 @@ export default function LoaderPage() {
   return (
     <Loader 
       onComplete={handleLoadingComplete} 
-      duration={5000} // 4 seconds for demo
+      duration={5000} // 5 seconds for loading
     />
   );
 }

@@ -5,6 +5,7 @@ import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import LoadingWrapper from "@/components/LoadingWrapper";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import Providers from "@/components/Providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,13 +35,15 @@ export default function RootLayout({
         className={`${inter.variable} ${poppins.variable} antialiased`}
       >
         <LanguageProvider>
-          <LoadingWrapper>
-            <Navbar />
-            <main className="min-h-screen pt-16">
-              {children}
-            </main>
-            <Footer />
-          </LoadingWrapper>
+          <Providers>
+            <LoadingWrapper>
+              <Navbar />
+              <main className="min-h-screen pt-16">
+                {children}
+              </main>
+              <Footer />
+            </LoadingWrapper>
+          </Providers>
         </LanguageProvider>
       </body>
     </html>
