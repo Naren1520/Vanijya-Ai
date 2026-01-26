@@ -212,9 +212,6 @@ export default function SimpleLoader({ onComplete, duration = 3000 }: SimpleLoad
           transition={{ delay: 1.2, duration: 0.8 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
         >
-          <p className="text-earth-500 text-sm">
-            {t('loader.tagline')}
-          </p>
         </motion.div>
       </div>
     </div>
