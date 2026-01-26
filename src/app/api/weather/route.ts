@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     let forecastUrl = '';
     if (lat && lon) {
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
-    } else if (location) {
+    } else if (location && typeof location === 'string') {
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
     }
 

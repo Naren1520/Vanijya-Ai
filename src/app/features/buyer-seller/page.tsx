@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, MessageCircle, MapPin, Phone, Mail, Search, Plus, Edit, Trash2, X, Save, Package } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface BuyerSellerListing {
   _id: string;
@@ -47,6 +48,7 @@ interface ListingForm {
 
 export default function BuyerSellerPage() {
   const { isAuthenticated, user } = useAuth();
+  const { t } = useLanguage();
   const [listings, setListings] = useState<BuyerSellerListing[]>([]);
   const [myListings, setMyListings] = useState<BuyerSellerListing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -237,16 +239,16 @@ export default function BuyerSellerPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
           <Users className="w-16 h-16 text-earth-400 mx-auto mb-6" />
           <h1 className="text-3xl font-bold text-earth-800 mb-4">
-            Direct Buyer-Seller Connections
+            {t('features.buyerSeller.title')}
           </h1>
           <p className="text-earth-600 mb-8">
-            Sign in to connect with verified buyers and sellers, add your products, or find what you need
+            {t('features.buyerSeller.signInMessage')}
           </p>
           <a
             href="/auth/signin"
             className="gradient-saffron text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 inline-block"
           >
-            Sign In to Continue
+            {t('features.buyerSeller.signInButton')}
           </a>
         </div>
       </div>
@@ -262,10 +264,10 @@ export default function BuyerSellerPage() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-4">
-            Direct Buyer-Seller Connections
+            {t('features.buyerSeller.title')}
           </h1>
           <p className="text-xl text-earth-600 max-w-3xl mx-auto">
-            Connect directly with verified buyers and sellers. Add your products or find what you need.
+            {t('features.buyerSeller.subtitle')}
           </p>
         </motion.div>
 
@@ -284,14 +286,14 @@ export default function BuyerSellerPage() {
             className="gradient-saffron text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
           >
             <Plus className="w-5 h-5" />
-            <span>Add Listing</span>
+            <span>{t('features.buyerSeller.addListing')}</span>
           </button>
           <button
             onClick={() => setShowMyListings(!showMyListings)}
             className="glass text-earth-700 px-6 py-3 rounded-lg font-medium hover:bg-white/40 transition-all duration-300 flex items-center space-x-2"
           >
             <Package className="w-5 h-5" />
-            <span>My Listings ({myListings.length})</span>
+            <span>{t('features.buyerSeller.myListings')} ({myListings.length})</span>
           </button>
         </motion.div>
 

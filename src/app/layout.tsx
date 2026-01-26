@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import LoadingWrapper from "@/components/LoadingWrapper";
+import TranslationChatbot from "@/components/ui/TranslationChatbot";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Providers from "@/components/Providers";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
+              <TranslationChatbot />
             </LoadingWrapper>
           </Providers>
         </LanguageProvider>

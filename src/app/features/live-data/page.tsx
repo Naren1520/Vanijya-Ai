@@ -172,10 +172,10 @@ export default function LiveDataPage() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-4">
-            Live Market Data Chat
+            {t('features.liveData.title')}
           </h1>
           <p className="text-xl text-earth-600 max-w-3xl mx-auto">
-            Get real-time market data through natural language queries
+            {t('features.liveData.subtitle')}
           </p>
         </motion.div>
 

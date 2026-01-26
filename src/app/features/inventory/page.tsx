@@ -201,16 +201,16 @@ export default function InventoryPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
           <Package className="w-16 h-16 text-earth-400 mx-auto mb-6" />
           <h1 className="text-3xl font-bold text-earth-800 mb-4">
-            Smart Inventory Management
+            {t('features.inventory.title')}
           </h1>
           <p className="text-earth-600 mb-8">
-            Sign in to access AI-powered inventory management with real-time insights
+            {t('features.inventory.signInMessage')}
           </p>
           <a
             href="/auth/signin"
             className="gradient-saffron text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 inline-block"
           >
-            Sign In to Continue
+            {t('features.inventory.signInButton')}
           </a>
         </div>
       </div>
@@ -227,10 +227,10 @@ export default function InventoryPage() {
         >
           <div>
             <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-2">
-              Smart Inventory Management
+              {t('features.inventory.title')}
             </h1>
             <p className="text-xl text-earth-600">
-              AI-powered insights for optimal stock management
+              {t('features.inventory.subtitle')}
             </p>
           </div>
           <button

@@ -23,6 +23,7 @@ import {
   Map
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WeatherData {
   location: {
@@ -66,6 +67,7 @@ interface WeatherData {
 
 export default function WeatherPage() {
   const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -79,7 +81,7 @@ export default function WeatherPage() {
 
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by this browser');
+      setError(t('common.geolocationNotSupported'));
       return;
     }
 
@@ -115,15 +117,15 @@ export default function WeatherPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error(`API Key Issue: ${data.error}\n\n${data.details || 'Please check your OpenWeatherMap API key configuration.'}`);
+          throw new Error(`${t('common.apiKeyIssue')}: ${data.error}\n\n${data.details || t('common.checkApiKey')}`);
         }
-        throw new Error(data.error || 'Failed to fetch weather data');
+        throw new Error(data.error || t('common.failedToFetchWeather'));
       }
 
       setWeatherData(data);
     } catch (error) {
       console.error('Weather fetch error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to fetch weather data');
+      setError(error instanceof Error ? error.message : t('common.failedToFetchWeather'));
     } finally {
       setLoading(false);
     }
@@ -139,15 +141,15 @@ export default function WeatherPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error(`API Key Issue: ${data.error}\n\n${data.details || 'Please check your OpenWeatherMap API key configuration.'}`);
+          throw new Error(`${t('common.apiKeyIssue')}: ${data.error}\n\n${data.details || t('common.checkApiKey')}`);
         }
-        throw new Error(data.error || 'Failed to fetch weather data');
+        throw new Error(data.error || t('common.failedToFetchWeather'));
       }
 
       setWeatherData(data);
     } catch (error) {
       console.error('Weather fetch error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to fetch weather data');
+      setError(error instanceof Error ? error.message : t('common.failedToFetchWeather'));
     } finally {
       setLoading(false);
     }
@@ -209,16 +211,16 @@ export default function WeatherPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
           <Cloud className="w-16 h-16 text-earth-400 mx-auto mb-6" />
           <h1 className="text-3xl font-bold text-earth-800 mb-4">
-            Weather Insights
+            {t('features.weather.title')}
           </h1>
           <p className="text-earth-600 mb-8">
-            Sign in to access real-time weather data and agricultural insights for better farming decisions
+            {t('features.weather.signInMessage')}
           </p>
           <a
             href="/auth/signin"
             className="gradient-saffron text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 inline-block"
           >
-            Sign In to Continue
+            {t('features.weather.signInButton')}
           </a>
         </div>
       </div>
@@ -235,10 +237,10 @@ export default function WeatherPage() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-4">
-            Weather Insights
+            {t('features.weather.title')}
           </h1>
           <p className="text-xl text-earth-600 max-w-3xl mx-auto">
-            Real-time weather data and agricultural insights to help you make informed farming decisions
+            {t('features.weather.subtitle')}
           </p>
         </motion.div>
 
@@ -256,7 +258,7 @@ export default function WeatherPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-earth-500" />
                 <input
                   type="text"
-                  placeholder="Search for a city or location..."
+                  placeholder={t('common.searchCity')}
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 glass rounded-lg border-0 focus:ring-2 focus:ring-saffron-500"
@@ -267,7 +269,7 @@ export default function WeatherPage() {
                 disabled={loading}
                 className="gradient-saffron text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 disabled:opacity-50"
               >
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Search'}
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t('common.search')}
               </button>
             </form>
 
@@ -278,14 +280,14 @@ export default function WeatherPage() {
               className="flex items-center space-x-2 glass text-earth-700 px-6 py-3 rounded-lg font-medium hover:bg-white/40 transition-all duration-300 disabled:opacity-50"
             >
               <Navigation className="w-5 h-5" />
-              <span>Current Location</span>
+              <span>{t('common.currentLocation')}</span>
             </button>
           </div>
 
           {locationPermission === 'denied' && (
             <div className="mt-4 p-3 bg-orange-100 border border-orange-300 rounded-lg">
               <p className="text-orange-700 text-sm">
-                Location access denied. You can still search for weather by entering a city name above.
+                {t('common.locationDenied')}
               </p>
             </div>
           )}
@@ -306,7 +308,7 @@ export default function WeatherPage() {
         {loading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-saffron-500 mx-auto mb-4"></div>
-            <p className="text-earth-600">Fetching weather data...</p>
+            <p className="text-earth-600">{t('common.fetchingWeather')}</p>
           </div>
         )}
 
@@ -329,7 +331,7 @@ export default function WeatherPage() {
                   <p className="text-earth-600 capitalize">{weatherData.current.description}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-earth-500">Last updated</p>
+                  <p className="text-sm text-earth-500">{t('common.lastUpdated')}</p>
                   <p className="text-sm text-earth-600">
                     {new Date(weatherData.lastUpdated).toLocaleString()}
                   </p>
@@ -349,7 +351,7 @@ export default function WeatherPage() {
                         {weatherData.current.temperature}°C
                       </div>
                       <div className="text-sm text-earth-600">
-                        Feels like {weatherData.current.feelsLike}°C
+                        {t('common.feelsLike')} {weatherData.current.feelsLike}°C
                       </div>
                     </div>
 
@@ -357,7 +359,7 @@ export default function WeatherPage() {
                     <div className="bg-white/40 rounded-lg p-4">
                       <div className="flex items-center space-x-2 mb-2">
                         <Droplets className="w-5 h-5 text-blue-500" />
-                        <span className="font-semibold text-earth-800">Humidity</span>
+                        <span className="font-semibold text-earth-800">{t('common.humidity')}</span>
                       </div>
                       <div className="text-2xl font-bold text-earth-800">
                         {weatherData.current.humidity}%
@@ -368,7 +370,7 @@ export default function WeatherPage() {
                     <div className="bg-white/40 rounded-lg p-4">
                       <div className="flex items-center space-x-2 mb-2">
                         <Wind className="w-5 h-5 text-gray-500" />
-                        <span className="font-semibold text-earth-800">Wind</span>
+                        <span className="font-semibold text-earth-800">{t('common.wind')}</span>
                       </div>
                       <div className="text-2xl font-bold text-earth-800">
                         {weatherData.current.windSpeed} m/s
@@ -382,7 +384,7 @@ export default function WeatherPage() {
                     <div className="bg-white/40 rounded-lg p-4">
                       <div className="flex items-center space-x-2 mb-2">
                         <Gauge className="w-5 h-5 text-purple-500" />
-                        <span className="font-semibold text-earth-800">Pressure</span>
+                        <span className="font-semibold text-earth-800">{t('common.pressure')}</span>
                       </div>
                       <div className="text-2xl font-bold text-earth-800">
                         {weatherData.current.pressure} hPa
@@ -394,24 +396,24 @@ export default function WeatherPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center">
                       <Sunrise className="w-5 h-5 text-orange-500 mx-auto mb-1" />
-                      <div className="text-sm text-earth-600">Sunrise</div>
+                      <div className="text-sm text-earth-600">{t('common.sunrise')}</div>
                       <div className="font-semibold text-earth-800">{weatherData.current.sunrise}</div>
                     </div>
                     <div className="text-center">
                       <Sunset className="w-5 h-5 text-orange-600 mx-auto mb-1" />
-                      <div className="text-sm text-earth-600">Sunset</div>
+                      <div className="text-sm text-earth-600">{t('common.sunset')}</div>
                       <div className="font-semibold text-earth-800">{weatherData.current.sunset}</div>
                     </div>
                     <div className="text-center">
                       <Eye className="w-5 h-5 text-gray-500 mx-auto mb-1" />
-                      <div className="text-sm text-earth-600">Visibility</div>
+                      <div className="text-sm text-earth-600">{t('common.visibility')}</div>
                       <div className="font-semibold text-earth-800">
                         {weatherData.current.visibility ? `${weatherData.current.visibility} km` : 'N/A'}
                       </div>
                     </div>
                     <div className="text-center">
                       <Cloud className="w-5 h-5 text-gray-500 mx-auto mb-1" />
-                      <div className="text-sm text-earth-600">Cloudiness</div>
+                      <div className="text-sm text-earth-600">{t('common.cloudiness')}</div>
                       <div className="font-semibold text-earth-800">{weatherData.current.cloudiness}%</div>
                     </div>
                   </div>
@@ -422,7 +424,7 @@ export default function WeatherPage() {
                   <div className="bg-white/40 rounded-lg p-4 h-full">
                     <div className="flex items-center space-x-2 mb-4">
                       <Map className="w-5 h-5 text-earth-600" />
-                      <span className="font-semibold text-earth-800">Location</span>
+                      <span className="font-semibold text-earth-800">{t('common.location')}</span>
                     </div>
                     <div className="relative h-64 lg:h-full min-h-[200px] rounded-lg overflow-hidden">
                       <iframe
@@ -436,7 +438,7 @@ export default function WeatherPage() {
                       />
                     </div>
                     <div className="mt-3 text-center">
-                      <div className="text-sm text-earth-600">Coordinates</div>
+                      <div className="text-sm text-earth-600">{t('common.coordinates')}</div>
                       <div className="text-xs font-mono text-earth-700">
                         {weatherData.location.coordinates.lat.toFixed(4)}, {weatherData.location.coordinates.lon.toFixed(4)}
                       </div>
@@ -446,7 +448,7 @@ export default function WeatherPage() {
                         rel="noopener noreferrer"
                         className="inline-block mt-2 text-xs text-saffron-600 hover:text-saffron-700 underline"
                       >
-                        View on OpenStreetMap
+                        {t('common.viewOnMap')}
                       </a>
                     </div>
                   </div>
@@ -461,7 +463,7 @@ export default function WeatherPage() {
               transition={{ delay: 0.3 }}
               className="glass rounded-2xl p-6"
             >
-              <h3 className="text-xl font-bold text-earth-800 mb-4">Agricultural Insights</h3>
+              <h3 className="text-xl font-bold text-earth-800 mb-4">{t('common.agriculturalInsights')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {weatherData.agriculturalInsights.map((insight, index) => (
                   <div
@@ -493,7 +495,7 @@ export default function WeatherPage() {
                 transition={{ delay: 0.4 }}
                 className="glass rounded-2xl p-6"
               >
-                <h3 className="text-xl font-bold text-earth-800 mb-4">8-Hour Forecast</h3>
+                <h3 className="text-xl font-bold text-earth-800 mb-4">{t('common.forecast')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
                   {weatherData.forecast.map((item, index) => (
                     <div key={index} className="bg-white/40 rounded-lg p-3 text-center">

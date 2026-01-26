@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type Language = 'en' | 'hi' | 'ta' | 'te' | 'kn' | 'mr';
 
@@ -26,6 +26,16 @@ interface LanguageProviderProps {
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+
+  // Load saved language on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('vanijya-language') as Language;
+      if (savedLanguage && ['en', 'hi', 'ta', 'te', 'kn', 'mr'].includes(savedLanguage)) {
+        setCurrentLanguage(savedLanguage);
+      }
+    }
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setCurrentLanguage(lang);

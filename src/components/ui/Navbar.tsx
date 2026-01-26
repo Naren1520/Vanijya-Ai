@@ -17,39 +17,40 @@ const languages = [
   { code: 'mr' as Language, name: 'मराठी' },
 ];
 
-const features = [
-  {
-    name: 'Buyer-Seller Connections',
-    href: '/features/buyer-seller',
-    icon: Users,
-    description: 'Direct connections with verified buyers and sellers'
-  },
-  {
-    name: 'Smart Inventory',
-    href: '/features/inventory',
-    icon: Package,
-    description: 'AI-powered inventory management with insights'
-  },
-  {
-    name: 'Live Market Data',
-    href: '/features/live-data',
-    icon: BarChart3,
-    description: 'Real-time market data feeds and chat interface'
-  },
-  {
-    name: 'Weather Insights',
-    href: '/features/weather',
-    icon: Cloud,
-    description: 'Real-time weather data and agricultural insights'
-  }
-];
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const { currentLanguage, setLanguage, t } = useLanguage();
   const { user, isAuthenticated, signOutUser } = useAuth();
+
+  // Define features with translation keys
+  const features = [
+    {
+      nameKey: 'nav.features.buyerSeller',
+      href: '/features/buyer-seller',
+      icon: Users,
+      descriptionKey: 'nav.features.buyerSellerDesc'
+    },
+    {
+      nameKey: 'nav.features.inventory',
+      href: '/features/inventory',
+      icon: Package,
+      descriptionKey: 'nav.features.inventoryDesc'
+    },
+    {
+      nameKey: 'nav.features.liveData',
+      href: '/features/live-data',
+      icon: BarChart3,
+      descriptionKey: 'nav.features.liveDataDesc'
+    },
+    {
+      nameKey: 'nav.features.weather',
+      href: '/features/weather',
+      icon: Cloud,
+      descriptionKey: 'nav.features.weatherDesc'
+    }
+  ];
 
   // Load saved language on mount
   useEffect(() => {
@@ -99,7 +100,7 @@ export default function Navbar() {
               <button
                 className="flex items-center space-x-1 text-earth-700 hover:text-saffron-600 transition-colors py-2"
               >
-                <span>Features</span>
+                <span>{t('nav.features')}</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
               
@@ -123,8 +124,8 @@ export default function Navbar() {
                       >
                         <feature.icon className="w-5 h-5 text-saffron-500 mt-0.5 flex-shrink-0" />
                         <div>
-                          <div className="font-medium">{feature.name}</div>
-                          <div className="text-xs text-earth-600 mt-1">{feature.description}</div>
+                          <div className="font-medium">{t(feature.nameKey)}</div>
+                          <div className="text-xs text-earth-600 mt-1">{t(feature.descriptionKey)}</div>
                         </div>
                       </Link>
                     ))}
@@ -239,7 +240,7 @@ export default function Navbar() {
             
             {/* Mobile Features */}
             <div className="space-y-2">
-              <div className="text-earth-700 font-medium">Features</div>
+              <div className="text-earth-700 font-medium">{t('nav.features')}</div>
               {features.map((feature) => (
                 <Link
                   key={feature.href}
@@ -247,7 +248,7 @@ export default function Navbar() {
                   className="flex items-center space-x-2 pl-4 text-earth-600 hover:text-saffron-600 transition-colors"
                 >
                   <feature.icon className="w-4 h-4" />
-                  <span>{feature.name}</span>
+                  <span>{t(feature.nameKey)}</span>
                 </Link>
               ))}
             </div>
