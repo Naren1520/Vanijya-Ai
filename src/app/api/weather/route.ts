@@ -20,9 +20,9 @@ export async function GET(request: NextRequest) {
     
     // Use coordinates if provided, otherwise use location name
     if (lat && lon) {
-      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
+      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY || ''}&units=metric`;
     } else if (location) {
-      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
+      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY || ''}&units=metric`;
     } else {
       return NextResponse.json(
         { error: 'Location or coordinates required' },
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Making weather API request to:', weatherUrl.replace(process.env.WEATHER_API_KEY, 'API_KEY_HIDDEN'));
+    console.log('Making weather API request to:', weatherUrl.replace(process.env.WEATHER_API_KEY || '', 'API_KEY_HIDDEN'));
 
     const weatherResponse = await fetch(weatherUrl);
     
@@ -72,9 +72,9 @@ export async function GET(request: NextRequest) {
     // Get 5-day forecast
     let forecastUrl = '';
     if (lat && lon) {
-      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
+      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY || ''}&units=metric`;
     } else if (location && typeof location === 'string') {
-      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
+      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY || ''}&units=metric`;
     }
 
     let forecastData = null;

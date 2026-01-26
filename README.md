@@ -63,12 +63,26 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 - **Farming Alerts** - Temperature, humidity, and wind warnings for crops
 - **Market Impact Analysis** - Weather-based market condition insights
 
+###  **Translation Chatbot** ✨
+- **Free Translation API** - MyMemory API integration for unlimited translations
+- **20+ Languages Supported** - All major Indian and international languages
+- **Floating Chat Widget** - Always accessible from bottom-right corner
+- **Real-time Translation** - Instant text translation between any language pairs
+- **Text-to-Speech** - Listen to translated text pronunciation
+- **Copy to Clipboard** - Easy sharing of translated content
+- **Language Swapping** - Quick swap between source and target languages
+- **Chat History** - Persistent conversation with timestamps
+- **Vanijya AI Branding** - Custom design with round logo integration
+
 ###  **Multilingual Communication**
 - **Voice-First Interface**: Speak naturally in your native language
 - **6 Languages Supported**: Hindi, Tamil, Telugu, Kannada, Marathi, English
 - **Real-time AI Translation**: Gemini-powered context-aware translation
 - **Cultural Intelligence**: Understands local market customs and phrases
 - **Enhanced Speech Recognition**: AI-improved accuracy for agricultural terms
+- **Complete UI Translation**: All pages and features available in multiple languages
+- **Translation Chatbot**: Floating widget for instant text translation between 20+ languages
+- **Free Translation Service**: MyMemory API integration with unlimited usage
 
 ###  **Smart Market Analysis**
 - **AI-Powered Market Data**: Gemini AI generates comprehensive market analysis
@@ -134,6 +148,7 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 - **Authentication API**: `/api/auth/*` - NextAuth.js endpoints
 - **Buyer-Seller API**: `/api/buyer-seller` - Direct connections and listings management
 - **Inventory API**: `/api/inventory` - Smart inventory management with AI insights
+- **Translation Chatbot**: Client-side MyMemory API integration for real-time translation
 
 ##  Design Philosophy
 
@@ -566,16 +581,29 @@ vanijya-ai/
 
 ##  Multilingual Support
 
-The platform supports 6 major Indian languages with AI-powered translation:
+The platform supports comprehensive multilingual functionality with both UI translations and real-time text translation:
 
-| Language | Native Script | Code | AI Translation | Authentication |
-|----------|---------------|------|----------------|----------------|
-| English | English | `en` | ✅ Gemini AI | ✅ Supported |
-| Hindi | हिंदी | `hi` | ✅ Gemini AI | ✅ Supported |
-| Tamil | தமிழ் | `ta` | ✅ Gemini AI | ✅ Supported |
-| Telugu | తెలుగు | `te` | ✅ Gemini AI | ✅ Supported |
-| Kannada | ಕನ್ನಡ | `kn` | ✅ Gemini AI | ✅ Supported |
-| Marathi | मराठी | `mr` | ✅ Gemini AI | ✅ Supported |
+### **UI Language Support (6 Languages)**
+| Language | Native Script | Code | UI Translation | Features Dropdown | All Pages |
+|----------|---------------|------|----------------|-------------------|-----------|
+| English | English | `en` | ✅ Complete | ✅ Translated | ✅ All Pages |
+| Hindi | हिंदी | `hi` | ✅ Complete | ✅ Translated | ✅ All Pages |
+| Tamil | தமிழ் | `ta` | ✅ Complete | ✅ Translated | ✅ All Pages |
+| Telugu | తెలుగు | `te` | ✅ Complete | ✅ Translated | ✅ All Pages |
+| Kannada | ಕನ್ನಡ | `kn` | ✅ Complete | ✅ Translated | ✅ All Pages |
+| Marathi | मराठी | `mr` | ✅ Complete | ✅ Translated | ✅ All Pages |
+
+### **Translation Chatbot Support (20+ Languages)**
+**Indian Languages**: Hindi, Tamil, Telugu, Kannada, Marathi, Bengali, Gujarati, Punjabi, Urdu  
+**International Languages**: English, Spanish, French, German, Italian, Portuguese, Russian, Japanese, Korean, Chinese, Arabic
+
+### **Translation Features**
+- **Persistent Language Selection**: User's language choice saved in localStorage
+- **Complete UI Translation**: All pages, navigation, features, and content
+- **Real-time Translation Chatbot**: Floating widget accessible from any page
+- **Free Translation Service**: MyMemory API with unlimited usage
+- **Advanced Features**: Text-to-speech, copy to clipboard, language swapping
+- **Cultural Context**: Translations preserve agricultural and market terminology
 
 ##  Security & Performance
 
