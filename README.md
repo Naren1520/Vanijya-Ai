@@ -451,7 +451,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Built with love for inclusive technology
 - Designed to bridge language barriers and promote fair trade
 
-## 👨 Developer 
+##  Developer 
 
 - **Name**: Naren S J
 - **Email**: narensonu1520@gmail.com
