@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
     const lat = searchParams.get('lat');
     const lon = searchParams.get('lon');
 
+    // Validate API key configuration
+
     if (!process.env.WEATHER_API_KEY) {
       return NextResponse.json(
         { error: 'Weather API key not configured. Please add WEATHER_API_KEY to your environment variables.' },
