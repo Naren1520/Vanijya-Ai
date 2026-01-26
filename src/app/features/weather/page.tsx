@@ -161,7 +161,7 @@ export default function WeatherPage() {
   };
 
   const getWeatherIcon = (iconCode: string) => {
-    const iconMap: { [key: string]: JSX.Element } = {
+    const iconMap: { [key: string]: React.ReactElement } = {
       '01d': <Sun className="w-8 h-8 text-yellow-500" />,
       '01n': <Sun className="w-8 h-8 text-yellow-300" />,
       '02d': <Cloud className="w-8 h-8 text-gray-500" />,

@@ -71,17 +71,19 @@ export async function GET(request: NextRequest) {
     let forecastUrl = '';
     if (lat && lon) {
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
-    } else {
+    } else if (location) {
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&appid=${process.env.WEATHER_API_KEY}&units=metric`;
     }
 
-    const forecastResponse = await fetch(forecastUrl);
     let forecastData = null;
     
-    if (forecastResponse.ok) {
-      forecastData = await forecastResponse.json();
-    } else {
-      console.warn('Forecast API failed, continuing without forecast data');
+    if (forecastUrl) {
+      const forecastResponse = await fetch(forecastUrl);
+      if (forecastResponse.ok) {
+        forecastData = await forecastResponse.json();
+      } else {
+        console.warn('Forecast API failed, continuing without forecast data');
+      }
     }
 
     // Format the response
