@@ -35,10 +35,10 @@ export default function ProfileSetupPage() {
     }
 
     // Pre-fill name from Google account
-    if (session.user?.name) {
+    if (session?.user?.name) {
       setFormData(prev => ({
         ...prev,
-        name: session.user.name || '',
+        name: session.user?.name || '',
       }));
     }
   }, [session, hasCompletedProfile, router]);

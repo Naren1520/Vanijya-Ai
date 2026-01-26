@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         },
         body: JSON.stringify({
           email: session.user.email,
-          googleId: session.user.id || session.user.email,
+          googleId: session.user.email, // Use email as googleId since id is not available in default session
           avatar: session.user.image,
           ...profileData,
         }),

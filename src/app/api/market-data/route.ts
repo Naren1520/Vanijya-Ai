@@ -54,7 +54,7 @@ async function getMarketDataFromGemini(market: string, location?: string) {
     console.log('Calling Gemini AI with simple prompt for:', market);
     
     const result = await model.generateContent(prompt);
-    const response = await result.response;
+    const response = result.response;
     let text = response.text();
 
     console.log('Gemini response received, length:', text.length);
@@ -171,7 +171,8 @@ async function getMarketDataFromGemini(market: string, location?: string) {
       commodities: commodityTemplates.map(template => {
         const currentPrice = generateDynamicPrice(template.basePrice, market);
         const weeklyTrend = generateWeeklyTrend(currentPrice);
-        const priceChange = ((currentPrice - template.basePrice) / template.basePrice * 100).toFixed(1);
+        const priceChangeNum = ((currentPrice - template.basePrice) / template.basePrice * 100);
+        const priceChange = priceChangeNum.toFixed(1);
         
         return {
           name: template.name,
@@ -180,7 +181,7 @@ async function getMarketDataFromGemini(market: string, location?: string) {
           category: template.category,
           weeklyTrend,
           priceAnalysis: {
-            changePercentage: `${priceChange > 0 ? '+' : ''}${priceChange}%`,
+            changePercentage: `${priceChangeNum > 0 ? '+' : ''}${priceChange}%`,
             changeReason: `Price influenced by ${template.seasonal} season factors, local supply conditions, and market-specific demand patterns in ${market}`,
             marketForces: [
               `${template.seasonal} seasonal impact`,
@@ -287,13 +288,4 @@ async function getMarketDataFromGemini(market: string, location?: string) {
     
     return NextResponse.json(fallbackData);
   }
-}
-
-function generateWeeklyTrend(basePrice: number) {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  
-  return days.map(day => ({
-    day,
-    price: Math.max(10, Math.floor(basePrice + (Math.random() - 0.5) * 15))
-  }));
 }
