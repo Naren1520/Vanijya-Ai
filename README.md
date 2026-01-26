@@ -310,7 +310,7 @@ For MongoDB configuration, see [MONGODB_SETUP.md](./MONGODB_SETUP.md)
 ##  Project Structure
 
 ```
-multilingual-mandi/
+vanijya-ai/
 ├── .env.example               # Environment variables template
 ├── .env.local                 # Local environment configuration
 ├── .gitignore                 # Git ignore rules
