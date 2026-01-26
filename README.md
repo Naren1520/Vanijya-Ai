@@ -2,7 +2,7 @@
 
 - https://vanijya-ai.vercel.app/
 
-An AI-powered platform that empowers India's local vendors by enabling **real-time multilingual communication**, **AI price discovery**, and **smart negotiation** inside local markets (mandis) using **Google Gemini AI** with **secure authentication** and **cloud data storage**.
+An AI-powered platform that empowers India's local vendors by enabling **real-time multilingual communication**, **AI price discovery**, **smart negotiation**, and **direct buyer-seller connections** inside local markets (mandis) using **Google Gemini AI** with **secure authentication** and **cloud data storage**.
 
 ![Vanijya Ai](https://img.shields.io/badge/Next.js-16.1.4-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
@@ -27,6 +27,31 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 - **AI-Generated Market Insights** with comprehensive analysis
 - **Dynamic Market Data** tailored to user queries
 - **Context-Aware Translation** preserving cultural nuances
+
+###  **Direct Buyer-Seller Connections** ✨
+- **Real User Listings** stored in MongoDB with authentication
+- **Product Management** - Add, edit, delete your listings
+- **Contact Integration** - Phone, Email, and WhatsApp support
+- **Smart Contact Display** - One phone, one email, one WhatsApp per listing
+- **WhatsApp Integration** - Pre-filled messages with "Vanijya AI" branding
+- **User Verification** - All listings linked to authenticated Google accounts
+- **Advanced Filtering** - Search by type, category, location, and keywords
+
+###  **Smart Inventory Management** ✨
+- **MongoDB-Based Storage** - Real inventory data for each user
+- **AI-Powered Insights** - Stock monitoring and recommendations
+- **CRUD Operations** - Add, view, edit, delete inventory items
+- **Stock Alerts** - Low stock warnings and reorder suggestions
+- **Category Management** - Organized inventory by product categories
+- **User-Specific Data** - Secure, isolated inventory per authenticated user
+
+###  **Live Market Data Integration** ✨
+- **SERP API Integration** - Real-time market data from search engines
+- **Dynamic Price Discovery** - Live commodity prices and trends
+- **Market Intelligence** - Real market conditions and pricing
+- **No Dummy Data** - All market information sourced from live APIs
+- **Comprehensive Search** - Multiple data sources for accurate pricing
+- **Real-Time Updates** - Fresh market data with each query
 
 ###  **Multilingual Communication**
 - **Voice-First Interface**: Speak naturally in your native language
@@ -90,11 +115,14 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 
 ### **API Architecture**
 - **Market Data API**: `/api/market-data` - AI-powered market analysis
+- **Live Market Data API**: `/api/live-market-data` - SERP API integration for real-time data
 - **Translation API**: `/api/translate` - Real-time text translation
 - **Price Analysis API**: `/api/analyze-price` - AI-powered market analysis
 - **Negotiation API**: `/api/negotiation-phrases` - Generate negotiation phrases
 - **User Management API**: `/api/users/profile` - User data operations
 - **Authentication API**: `/api/auth/*` - NextAuth.js endpoints
+- **Buyer-Seller API**: `/api/buyer-seller` - Direct connections and listings management
+- **Inventory API**: `/api/inventory` - Smart inventory management with AI insights
 
 ##  Design Philosophy
 
@@ -138,6 +166,27 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 - **Market Intelligence**: AI sentiment analysis and predictions
 - **Personalized Recommendations**: User-specific market advice
 - **Economic Analysis**: Weather, policy, and economic factor impacts
+
+###  **Features** - **Protected Routes**
+- **Direct Buyer-Seller Connections** (`/features/buyer-seller`)
+  - Real user listings with MongoDB storage
+  - Add/edit/delete product listings
+  - Phone, Email, and WhatsApp contact integration
+  - Advanced filtering and search capabilities
+  - User verification through Google accounts
+
+- **Smart Inventory Management** (`/features/inventory`)
+  - MongoDB-based inventory storage per user
+  - AI-powered stock insights and recommendations
+  - CRUD operations for inventory items
+  - Low stock alerts and reorder suggestions
+  - Category-based organization
+
+- **Live Market Data** (`/features/live-data`)
+  - SERP API integration for real-time market data
+  - Live commodity prices and market trends
+  - Dynamic price discovery without dummy data
+  - Comprehensive market intelligence
 
 ###  **How It Works** (`/how-it-works`)
 - Step-by-step process visualization
@@ -191,7 +240,9 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
    
    # MongoDB Configuration
    MONGODB_URI=your_mongodb_connection_string
-   MONGODB_DB_NAME=vanijya_ai
+   
+   # SERP API Configuration (for live market data)
+   SERP_API_KEY=your_serp_api_key_here
    
    # Application Configuration
    NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -244,6 +295,9 @@ multilingual-mandi/
 │   │   ├── api/               # API routes
 │   │   │   ├── auth/          # NextAuth.js authentication
 │   │   │   ├── users/         # User management endpoints
+│   │   │   ├── buyer-seller/  # Direct connections API
+│   │   │   ├── inventory/     # Smart inventory management API
+│   │   │   ├── live-market-data/ # SERP API integration
 │   │   │   ├── market-data/   # AI market analysis endpoint
 │   │   │   ├── translate/     # Translation endpoint
 │   │   │   ├── analyze-price/ # Price analysis endpoint
@@ -251,6 +305,10 @@ multilingual-mandi/
 │   │   ├── auth/              # Authentication pages
 │   │   │   ├── signin/        # Google OAuth login
 │   │   │   └── profile-setup/ # User profile collection
+│   │   ├── features/          # Feature pages (protected)
+│   │   │   ├── buyer-seller/  # Direct connections interface
+│   │   │   ├── inventory/     # Inventory management interface
+│   │   │   └── live-data/     # Live market data interface
 │   │   ├── demo/              # AI-powered assistant (public)
 │   │   ├── dashboard/         # AI market dashboard (protected)
 │   │   ├── how-it-works/      # Process explanation
@@ -278,7 +336,11 @@ multilingual-mandi/
 │       ├── translations.json   # Translation data
 │       ├── types.ts           # TypeScript definitions
 │       ├── models/            # Database models
+│       │   ├── User.ts        # User data model
+│       │   ├── BuyerSeller.ts # Buyer-seller listings model
+│       │   └── Inventory.ts   # Inventory management model
 │       └── services/          # Database services
+│           └── userService.ts # User data operations
 ├── public/                     # Static assets
 ├── scripts/                    # Utility scripts
 ├── .env.example               # Environment variables template
@@ -350,12 +412,61 @@ multilingual-mandi/
 }
 ```
 
+### **Buyer-Seller Listings Collection Schema**
+```typescript
+{
+  _id: ObjectId,
+  userId: string,           // User's email (authentication link)
+  userEmail: string,        // User's Google account email
+  userName: string,         // User's display name
+  userPhone?: string,       // User's phone number
+  userWhatsApp?: string,    // User's WhatsApp number
+  type: 'buyer' | 'seller', // Listing type
+  productName: string,      // Product being bought/sold
+  category: string,         // Product category
+  quantity: number,         // Quantity needed/available
+  unit: string,            // Unit of measurement
+  pricePerUnit?: number,   // Price per unit (optional)
+  location: string,        // Location for transaction
+  description: string,     // Detailed description
+  contactEmail?: string,   // Alternative contact email
+  contactPhone?: string,   // Alternative contact phone
+  contactWhatsApp?: string, // Alternative WhatsApp number
+  isActive: boolean,       // Listing status
+  createdAt: Date,         // Creation timestamp
+  updatedAt: Date          // Last update timestamp
+}
+```
+
+### **Inventory Collection Schema**
+```typescript
+{
+  _id: ObjectId,
+  userId: string,          // User's email (authentication link)
+  itemName: string,        // Inventory item name
+  category: string,        // Item category
+  quantity: number,        // Current stock quantity
+  unit: string,           // Unit of measurement
+  costPrice?: number,     // Cost price per unit
+  sellingPrice?: number,  // Selling price per unit
+  supplier?: string,      // Supplier information
+  location: string,       // Storage location
+  description?: string,   // Item description
+  lowStockThreshold: number, // Alert threshold
+  expiryDate?: Date,      // Expiry date (if applicable)
+  createdAt: Date,        // Creation timestamp
+  updatedAt: Date         // Last update timestamp
+}
+```
+
 ### **Database Features**
 - **MongoDB Atlas**: Cloud-hosted database
+- **Multiple Collections**: Users, BuyerSeller listings, Inventory items
 - **Connection Pooling**: Optimized performance
-- **Data Validation**: Schema enforcement
+- **Data Validation**: Schema enforcement with Mongoose
 - **Backup & Recovery**: Automated cloud backups
 - **Scalability**: Auto-scaling based on usage
+- **User Isolation**: Secure data separation per authenticated user
 
 ##  Multilingual Support
 
@@ -416,19 +527,24 @@ The platform supports 6 major Indian languages with AI-powered translation:
 - [x] **Interactive Dashboard** with market search
 - [x] **User Profile Management** with secure storage
 - [x] **Protected Routes** and session management
+- [x] **Direct Buyer-Seller Connections** with real MongoDB storage
+- [x] **Smart Inventory Management** with AI insights
+- [x] **Live Market Data Integration** with SERP API
+- [x] **WhatsApp Integration** with pre-filled messages
+- [x] **Contact Management** (Phone, Email, WhatsApp)
+- [x] **Advanced Filtering** and search capabilities
+- [x] **User Verification** through authenticated accounts
 - [x] **Multilingual Support** across all pages
 - [x] **Responsive Design** for all devices
 - [x] **Production Deployment** ready
 
 ### **Future Enhancements**
-- [ ] Live market data feeds integration
 - [ ] Push notifications for price alerts
 - [ ] Advanced AI models for better accuracy
-- [ ] Direct buyer-seller connections
-- [ ] Payment integration
-- [ ] Inventory management with AI insights
+- [ ] Payment integration for transactions
 - [ ] Quality assessment using computer vision
 - [ ] Logistics coordination with AI optimization
+
 
 ##  Contributing
 
