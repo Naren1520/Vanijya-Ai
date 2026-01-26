@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Globe, Menu, X, User, LogOut, ChevronDown, Users, Package, BarChart3 } from 'lucide-react';
+import { Globe, Menu, X, User, LogOut, ChevronDown, Users, Package, BarChart3, Cloud } from 'lucide-react';
 import { useLanguage, Language } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -35,6 +35,12 @@ const features = [
     href: '/features/live-data',
     icon: BarChart3,
     description: 'Real-time market data feeds and chat interface'
+  },
+  {
+    name: 'Weather Insights',
+    href: '/features/weather',
+    icon: Cloud,
+    description: 'Real-time weather data and agricultural insights'
   }
 ];
 
@@ -106,13 +112,13 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-2 w-80 bg-white/90 backdrop-blur-lg rounded-lg shadow-xl border border-white/40 py-2 z-50"
+                    className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   >
                     {features.map((feature) => (
                       <Link
                         key={feature.href}
                         href={feature.href}
-                        className="flex items-start space-x-3 px-4 py-3 text-sm text-earth-700 hover:bg-white/20 transition-colors"
+                        className="flex items-start space-x-3 px-4 py-3 text-sm text-earth-700 hover:bg-gray-50 transition-colors"
                         onClick={() => setShowFeaturesMenu(false)}
                       >
                         <feature.icon className="w-5 h-5 text-saffron-500 mt-0.5 flex-shrink-0" />

@@ -53,6 +53,16 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 - **Comprehensive Search** - Multiple data sources for accurate pricing
 - **Real-Time Updates** - Fresh market data with each query
 
+###  **Weather Insights** ✨
+- **OpenWeatherMap Integration** - Real-time weather data and forecasts
+- **GPS Location Detection** - Automatic current location weather
+- **Manual Location Search** - Search weather for any city or region
+- **Agricultural Insights** - AI-powered farming recommendations based on weather
+- **8-Hour Forecast** - Detailed hourly weather predictions
+- **Interactive Maps** - Visual location display with coordinates
+- **Farming Alerts** - Temperature, humidity, and wind warnings for crops
+- **Market Impact Analysis** - Weather-based market condition insights
+
 ###  **Multilingual Communication**
 - **Voice-First Interface**: Speak naturally in your native language
 - **6 Languages Supported**: Hindi, Tamil, Telugu, Kannada, Marathi, English
@@ -116,6 +126,7 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
 ### **API Architecture**
 - **Market Data API**: `/api/market-data` - AI-powered market analysis
 - **Live Market Data API**: `/api/live-market-data` - SERP API integration for real-time data
+- **Weather API**: `/api/weather` - OpenWeatherMap integration for weather data and agricultural insights
 - **Translation API**: `/api/translate` - Real-time text translation
 - **Price Analysis API**: `/api/analyze-price` - AI-powered market analysis
 - **Negotiation API**: `/api/negotiation-phrases` - Generate negotiation phrases
@@ -188,6 +199,13 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
   - Dynamic price discovery without dummy data
   - Comprehensive market intelligence
 
+- **Weather Insights** (`/features/weather`)
+  - OpenWeatherMap API integration for real-time weather data
+  - GPS location detection and manual location search
+  - Agricultural insights and farming recommendations
+  - 8-hour weather forecast with interactive maps
+  - Weather-based market impact analysis
+
 ###  **How It Works** (`/how-it-works`)
 - Step-by-step process visualization
 - AI technology explanations
@@ -244,6 +262,9 @@ An AI-powered platform that empowers India's local vendors by enabling **real-ti
    # SERP API Configuration (for live market data)
    SERP_API_KEY=your_serp_api_key_here
    
+   # Weather API Configuration (for weather insights)
+   WEATHER_API_KEY=your_openweather_api_key_here
+   
    # Application Configuration
    NEXT_PUBLIC_APP_URL=http://localhost:3000
    NEXT_PUBLIC_APP_NAME=Vanijya AI
@@ -290,65 +311,140 @@ For MongoDB configuration, see [MONGODB_SETUP.md](./MONGODB_SETUP.md)
 
 ```
 multilingual-mandi/
-├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── api/               # API routes
-│   │   │   ├── auth/          # NextAuth.js authentication
-│   │   │   ├── users/         # User management endpoints
-│   │   │   ├── buyer-seller/  # Direct connections API
-│   │   │   ├── inventory/     # Smart inventory management API
-│   │   │   ├── live-market-data/ # SERP API integration
-│   │   │   ├── market-data/   # AI market analysis endpoint
-│   │   │   ├── translate/     # Translation endpoint
-│   │   │   ├── analyze-price/ # Price analysis endpoint
-│   │   │   └── negotiation-phrases/ # Negotiation API
-│   │   ├── auth/              # Authentication pages
-│   │   │   ├── signin/        # Google OAuth login
-│   │   │   └── profile-setup/ # User profile collection
-│   │   ├── features/          # Feature pages (protected)
-│   │   │   ├── buyer-seller/  # Direct connections interface
-│   │   │   ├── inventory/     # Inventory management interface
-│   │   │   └── live-data/     # Live market data interface
-│   │   ├── demo/              # AI-powered assistant (public)
-│   │   ├── dashboard/         # AI market dashboard (protected)
-│   │   ├── how-it-works/      # Process explanation
-│   │   ├── impact/            # Impact metrics
-│   │   ├── test-gemini/       # AI testing page
-│   │   ├── layout.tsx         # Root layout with providers
-│   │   └── page.tsx           # Landing page
-│   ├── components/
-│   │   ├── AuthWrapper.tsx    # Authentication wrapper
-│   │   ├── Providers.tsx      # Context providers
-│   │   └── ui/                # Reusable UI components
-│   │       ├── Navbar.tsx     # Navigation with auth
-│   │       ├── Footer.tsx     # Footer component
-│   │       ├── GlassCard.tsx  # Glassmorphic card
-│   │       ├── VoiceButton.tsx # AI-enhanced voice input
-│   │       └── MarketSuggestions.tsx # Market search suggestions
-│   ├── contexts/
-│   │   ├── AuthContext.tsx    # Authentication state
-│   │   └── LanguageContext.tsx # Multilingual state
-│   └── lib/
-│       ├── auth.ts            # NextAuth configuration
-│       ├── mongodb.ts         # Database connection
-│       ├── gemini.ts          # Gemini AI integration
-│       ├── speechRecognition.ts # Enhanced speech recognition
-│       ├── translations.json   # Translation data
-│       ├── types.ts           # TypeScript definitions
-│       ├── models/            # Database models
-│       │   ├── User.ts        # User data model
-│       │   ├── BuyerSeller.ts # Buyer-seller listings model
-│       │   └── Inventory.ts   # Inventory management model
-│       └── services/          # Database services
-│           └── userService.ts # User data operations
-├── public/                     # Static assets
-├── scripts/                    # Utility scripts
 ├── .env.example               # Environment variables template
-├── GEMINI_SETUP.md           # AI setup guide
-├── GOOGLE_AUTH_SETUP.md      # Authentication setup guide
-├── MONGODB_SETUP.md          # Database setup guide
-├── tailwind.config.ts        # Tailwind configuration
-└── package.json
+├── .env.local                 # Local environment configuration
+├── .gitignore                 # Git ignore rules
+├── README.md                  # Project documentation
+├── package.json               # Dependencies and scripts
+├── package-lock.json          # Dependency lock file
+├── next.config.ts             # Next.js configuration
+├── tsconfig.json              # TypeScript configuration
+├── tailwind.config.ts         # Tailwind CSS configuration
+├── postcss.config.mjs         # PostCSS configuration
+├── eslint.config.mjs          # ESLint configuration
+├── next-env.d.ts              # Next.js TypeScript declarations
+├── public/                    # Static assets
+│   ├── Assets/
+│   │   └── logo.png           # Application logo
+│   ├── file.svg               # File icon
+│   ├── globe.svg              # Globe icon
+│   ├── next.svg               # Next.js logo
+│   ├── vercel.svg             # Vercel logo
+│   └── window.svg             # Window icon
+├── scripts/                   # Utility scripts
+│   ├── add-whatsapp-fields.js # Database migration script
+│   └── test-db.js             # Database connection test
+└── src/                       # Source code
+    ├── app/                   # Next.js App Router pages
+    │   ├── api/               # API routes
+    │   │   ├── analyze-price/
+    │   │   │   └── route.ts   # Price analysis endpoint
+    │   │   ├── auth/
+    │   │   │   └── [...nextauth]/
+    │   │   │       └── route.ts # NextAuth.js authentication
+    │   │   ├── buyer-seller/
+    │   │   │   ├── route.ts   # Buyer-seller listings API
+    │   │   │   ├── my-listings/
+    │   │   │   │   └── route.ts # User's listings API
+    │   │   │   └── [id]/
+    │   │   │       └── route.ts # Individual listing API
+    │   │   ├── health/
+    │   │   │   └── database/
+    │   │   │       └── route.ts # Database health check
+    │   │   ├── inventory/
+    │   │   │   ├── route.ts   # Inventory management API
+    │   │   │   └── [id]/
+    │   │   │       └── route.ts # Individual inventory item API
+    │   │   ├── live-market-data/
+    │   │   │   └── route.ts   # SERP API integration
+    │   │   ├── market-data/
+    │   │   │   └── route.ts   # AI market analysis endpoint
+    │   │   ├── negotiation-phrases/
+    │   │   │   └── route.ts   # Negotiation phrases API
+    │   │   ├── test-gemini/
+    │   │   │   └── route.ts   # Gemini AI testing endpoint
+    │   │   ├── test-weather-key/
+    │   │   │   └── route.ts   # Weather API key testing
+    │   │   ├── translate/
+    │   │   │   └── route.ts   # Translation endpoint
+    │   │   ├── users/
+    │   │   │   └── profile/
+    │   │   │       └── route.ts # User profile management
+    │   │   └── weather/
+    │   │       └── route.ts   # Weather data and insights API
+    │   ├── api-test/
+    │   │   └── page.tsx       # API testing interface
+    │   ├── auth/              # Authentication pages
+    │   │   ├── profile-setup/
+    │   │   │   └── page.tsx   # User profile setup
+    │   │   └── signin/
+    │   │       └── page.tsx   # Google OAuth login
+    │   ├── dashboard/
+    │   │   └── page.tsx       # AI market dashboard (protected)
+    │   ├── demo/
+    │   │   └── page.tsx       # AI-powered assistant (public)
+    │   ├── features/          # Feature pages (protected)
+    │   │   ├── buyer-seller/
+    │   │   │   └── page.tsx   # Direct connections interface
+    │   │   ├── inventory/
+    │   │   │   └── page.tsx   # Inventory management interface
+    │   │   ├── live-data/
+    │   │   │   └── page.tsx   # Live market data interface
+    │   │   └── weather/
+    │   │       └── page.tsx   # Weather insights interface
+    │   ├── how-it-works/
+    │   │   └── page.tsx       # Process explanation
+    │   ├── impact/
+    │   │   └── page.tsx       # Impact metrics
+    │   ├── language-test/
+    │   │   └── page.tsx       # Language testing page
+    │   ├── loader/
+    │   │   └── page.tsx       # Loading page
+    │   ├── loader-demo/
+    │   │   └── page.tsx       # Loading demo page
+    │   ├── test-gemini/
+    │   │   └── page.tsx       # AI testing page
+    │   ├── test-weather/
+    │   │   └── page.tsx       # Weather API testing page
+    │   ├── favicon.ico        # Application favicon
+    │   ├── globals.css        # Global styles
+    │   ├── layout.tsx         # Root layout with providers
+    │   ├── loading.tsx        # Global loading component
+    │   └── page.tsx           # Landing page
+    ├── components/            # Reusable components
+    │   ├── AuthWrapper.tsx    # Authentication wrapper
+    │   ├── LoadingWrapper.tsx # Loading state wrapper
+    │   ├── Providers.tsx      # Context providers
+    │   └── ui/                # UI components
+    │       ├── CommodityComparison.tsx # Market comparison component
+    │       ├── Footer.tsx     # Footer component
+    │       ├── GlassCard.tsx  # Glassmorphic card component
+    │       ├── Loader.tsx     # Loading animation component
+    │       ├── LoaderDemo.tsx # Loading demo component
+    │       ├── MarketSuggestions.tsx # Market search suggestions
+    │       ├── Navbar.tsx     # Navigation with authentication
+    │       ├── SimpleLoader.tsx # Simple loading component
+    │       └── VoiceButton.tsx # AI-enhanced voice input
+    ├── contexts/              # React contexts
+    │   ├── AuthContext.tsx    # Authentication state management
+    │   └── LanguageContext.tsx # Multilingual state management
+    ├── lib/                   # Utility libraries
+    │   ├── auth.ts            # NextAuth configuration
+    │   ├── gemini.ts          # Gemini AI integration
+    │   ├── mockData.ts        # Mock data for development
+    │   ├── mongodb.ts         # Database connection utility
+    │   ├── speechRecognition.ts # Enhanced speech recognition
+    │   ├── translations.json  # Translation data
+    │   ├── types.ts           # TypeScript type definitions
+    │   ├── models/            # Database models
+    │   │   ├── BuyerSeller.ts # Buyer-seller listings model
+    │   │   ├── Inventory.ts   # Inventory management model
+    │   │   └── User.ts        # User data model
+    │   └── services/          # Database services
+    │       └── userService.ts # User data operations
+    └── types/                 # TypeScript declarations
+        ├── global.d.ts        # Global type declarations
+        └── next-auth.d.ts     # NextAuth type extensions
 ```
 
 ##  AI Features in Detail
@@ -517,7 +613,7 @@ The platform supports 6 major Indian languages with AI-powered translation:
 
 ##  Current Features (Production Ready)
 
-### **Completed Features** ✅
+### **Features** ✅
 - [x] **Google OAuth Authentication** with NextAuth.js
 - [x] **MongoDB Integration** for user data storage
 - [x] **Real AI Integration** (Gemini AI)
@@ -530,6 +626,10 @@ The platform supports 6 major Indian languages with AI-powered translation:
 - [x] **Direct Buyer-Seller Connections** with real MongoDB storage
 - [x] **Smart Inventory Management** with AI insights
 - [x] **Live Market Data Integration** with SERP API
+- [x] **Weather Insights** with OpenWeatherMap API integration
+- [x] **GPS Location Detection** and manual location search
+- [x] **Agricultural Weather Insights** with AI-powered recommendations
+- [x] **Interactive Weather Maps** with location visualization
 - [x] **WhatsApp Integration** with pre-filled messages
 - [x] **Contact Management** (Phone, Email, WhatsApp)
 - [x] **Advanced Filtering** and search capabilities
