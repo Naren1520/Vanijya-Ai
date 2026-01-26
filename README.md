@@ -1,5 +1,7 @@
 # The Vanijya Ai 🌾
 
+- https://vanijya-ai.vercel.app/
+
 An AI-powered platform that empowers India's local vendors by enabling real-time multilingual communication, AI price discovery, and smart negotiation inside local markets (mandis).
 
 ![Vanijya Ai](https://img.shields.io/badge/Next.js-16.1.4-black?style=for-the-badge&logo=next.js)
