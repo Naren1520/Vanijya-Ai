@@ -1,17 +1,25 @@
 import { NextResponse } from 'next/server';
-import { getDatabase } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/mongodb';
+import mongoose from 'mongoose';
 
 export async function GET() {
   try {
     // Test database connection
-    const db = await getDatabase();
+    await connectToDatabase();
+    
+    // Check if mongoose is connected
+    if (mongoose.connection.readyState !== 1) {
+      throw new Error('Database not connected');
+    }
     
     // Perform a simple operation to verify connection
-    const result = await db.admin().ping();
+    const db = mongoose.connection.db;
+    const result = await db?.admin().ping();
     
     return NextResponse.json({
       status: 'connected',
-      database: db.databaseName,
+      database: db?.databaseName || 'vanijya_ai',
+      readyState: mongoose.connection.readyState,
       timestamp: new Date().toISOString(),
       ping: result
     });
@@ -23,6 +31,7 @@ export async function GET() {
         status: 'error',
         message: 'Failed to connect to database',
         error: error instanceof Error ? error.message : 'Unknown error',
+        readyState: mongoose.connection.readyState,
         timestamp: new Date().toISOString()
       },
       { status: 500 }

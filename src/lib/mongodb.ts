@@ -1,45 +1,48 @@
-import { MongoClient, Db } from 'mongodb';
+import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
 
 const uri = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_DB_NAME || 'vanijya_ai';
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
+// Global is used here to maintain a cached connection across hot reloads in development
+let cached = (global as any).mongoose;
 
-if (process.env.NODE_ENV === 'development') {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  let globalWithMongo = global as typeof globalThis & {
-    _mongoClientPromise?: Promise<MongoClient>;
-  };
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
 
-  if (!globalWithMongo._mongoClientPromise) {
-    client = new MongoClient(uri);
-    globalWithMongo._mongoClientPromise = client.connect();
+export async function connectToDatabase() {
+  if (cached.conn) {
+    return cached.conn;
   }
-  clientPromise = globalWithMongo._mongoClientPromise;
-} else {
-  // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri);
-  clientPromise = client.connect();
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(uri, opts);
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
 }
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
-export default clientPromise;
-
-// Helper function to get database
-export async function getDatabase(): Promise<Db> {
-  const client = await clientPromise;
-  return client.db(dbName);
+// Legacy exports for compatibility
+export async function getDatabase() {
+  await connectToDatabase();
+  return mongoose.connection.db;
 }
 
-// Helper function to get a collection
 export async function getCollection(collectionName: string) {
   const db = await getDatabase();
-  return db.collection(collectionName);
+  return db?.collection(collectionName);
 }

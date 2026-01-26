@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Globe, Menu, X, User, LogOut } from 'lucide-react';
+import { Globe, Menu, X, User, LogOut, ChevronDown, Users, Package, BarChart3 } from 'lucide-react';
 import { useLanguage, Language } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -17,9 +17,31 @@ const languages = [
   { code: 'mr' as Language, name: 'मराठी' },
 ];
 
+const features = [
+  {
+    name: 'Buyer-Seller Connections',
+    href: '/features/buyer-seller',
+    icon: Users,
+    description: 'Direct connections with verified buyers and sellers'
+  },
+  {
+    name: 'Smart Inventory',
+    href: '/features/inventory',
+    icon: Package,
+    description: 'AI-powered inventory management with insights'
+  },
+  {
+    name: 'Live Market Data',
+    href: '/features/live-data',
+    icon: BarChart3,
+    description: 'Real-time market data feeds and chat interface'
+  }
+];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const { currentLanguage, setLanguage, t } = useLanguage();
   const { user, isAuthenticated, signOutUser } = useAuth();
 
@@ -61,6 +83,50 @@ export default function Navbar() {
             <Link href="/demo" className="text-earth-700 hover:text-saffron-600 transition-colors">
               {t('nav.demo')}
             </Link>
+            
+            {/* Features Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setShowFeaturesMenu(true)}
+              onMouseLeave={() => setShowFeaturesMenu(false)}
+            >
+              <button
+                className="flex items-center space-x-1 text-earth-700 hover:text-saffron-600 transition-colors py-2"
+              >
+                <span>Features</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              
+              {showFeaturesMenu && (
+                <>
+                  {/* Invisible bridge to prevent dropdown from closing */}
+                  <div className="absolute top-full left-0 w-full h-2 bg-transparent"></div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-2 w-80 bg-white/90 backdrop-blur-lg rounded-lg shadow-xl border border-white/40 py-2 z-50"
+                  >
+                    {features.map((feature) => (
+                      <Link
+                        key={feature.href}
+                        href={feature.href}
+                        className="flex items-start space-x-3 px-4 py-3 text-sm text-earth-700 hover:bg-white/20 transition-colors"
+                        onClick={() => setShowFeaturesMenu(false)}
+                      >
+                        <feature.icon className="w-5 h-5 text-saffron-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <div className="font-medium">{feature.name}</div>
+                          <div className="text-xs text-earth-600 mt-1">{feature.description}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </div>
+            
             <Link href="/how-it-works" className="text-earth-700 hover:text-saffron-600 transition-colors">
               {t('nav.howItWorks')}
             </Link>
@@ -107,7 +173,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute right-0 mt-2 w-48 glass rounded-lg shadow-lg border border-white/20 py-2"
+                    className="absolute right-0 mt-2 w-48 bg-white/90 backdrop-blur-lg rounded-lg shadow-xl border border-white/40 py-2"
                   >
                     <div className="px-4 py-2 border-b border-white/20">
                       <p className="text-sm font-medium text-earth-800">{user.name}</p>
@@ -164,6 +230,22 @@ export default function Navbar() {
             <Link href="/demo" className="block text-earth-700 hover:text-saffron-600 transition-colors">
               {t('nav.demo')}
             </Link>
+            
+            {/* Mobile Features */}
+            <div className="space-y-2">
+              <div className="text-earth-700 font-medium">Features</div>
+              {features.map((feature) => (
+                <Link
+                  key={feature.href}
+                  href={feature.href}
+                  className="flex items-center space-x-2 pl-4 text-earth-600 hover:text-saffron-600 transition-colors"
+                >
+                  <feature.icon className="w-4 h-4" />
+                  <span>{feature.name}</span>
+                </Link>
+              ))}
+            </div>
+            
             <Link href="/how-it-works" className="block text-earth-700 hover:text-saffron-600 transition-colors">
               {t('nav.howItWorks')}
             </Link>

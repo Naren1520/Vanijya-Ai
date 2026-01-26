@@ -13,6 +13,10 @@ export class UserService {
   static async createUser(userData: CreateUserData): Promise<UserProfile> {
     const collection = await this.getUsersCollection();
     
+    if (!collection) {
+      throw new Error('Failed to get users collection');
+    }
+    
     const now = new Date();
     const user: Omit<UserProfile, '_id'> = {
       id: new ObjectId().toString(),
@@ -32,6 +36,8 @@ export class UserService {
   // Get user by email
   static async getUserByEmail(email: string): Promise<UserProfile | null> {
     const collection = await this.getUsersCollection();
+    if (!collection) return null;
+    
     const user = await collection.findOne({ email });
     return user as UserProfile | null;
   }
@@ -39,6 +45,8 @@ export class UserService {
   // Get user by Google ID
   static async getUserByGoogleId(googleId: string): Promise<UserProfile | null> {
     const collection = await this.getUsersCollection();
+    if (!collection) return null;
+    
     const user = await collection.findOne({ googleId });
     return user as UserProfile | null;
   }
@@ -46,6 +54,8 @@ export class UserService {
   // Get user by ID
   static async getUserById(id: string): Promise<UserProfile | null> {
     const collection = await this.getUsersCollection();
+    if (!collection) return null;
+    
     const user = await collection.findOne({ id });
     return user as UserProfile | null;
   }
@@ -53,6 +63,7 @@ export class UserService {
   // Update user
   static async updateUser(id: string, updateData: UpdateUserData): Promise<UserProfile | null> {
     const collection = await this.getUsersCollection();
+    if (!collection) return null;
     
     const result = await collection.findOneAndUpdate(
       { id },
@@ -71,6 +82,8 @@ export class UserService {
   // Delete user
   static async deleteUser(id: string): Promise<boolean> {
     const collection = await this.getUsersCollection();
+    if (!collection) return false;
+    
     const result = await collection.deleteOne({ id });
     return result.deletedCount > 0;
   }
@@ -78,6 +91,8 @@ export class UserService {
   // Get all users (admin function)
   static async getAllUsers(): Promise<UserProfile[]> {
     const collection = await this.getUsersCollection();
+    if (!collection) return [];
+    
     const users = await collection.find({}).toArray();
     return users as UserProfile[];
   }
@@ -85,6 +100,8 @@ export class UserService {
   // Check if user exists by email
   static async userExists(email: string): Promise<boolean> {
     const collection = await this.getUsersCollection();
+    if (!collection) return false;
+    
     const count = await collection.countDocuments({ email });
     return count > 0;
   }
@@ -95,6 +112,7 @@ export class UserService {
     profileData: { name: string; phone: string; address: string }
   ): Promise<UserProfile | null> {
     const collection = await this.getUsersCollection();
+    if (!collection) return null;
     
     const result = await collection.findOneAndUpdate(
       { email },
