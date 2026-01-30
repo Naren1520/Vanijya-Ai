@@ -14,7 +14,7 @@ export async function GET() {
     const genAI = new GoogleGenerativeAI(apiKey);
     
     // Try different model names
-    const models = ['gemini-pro', 'gemini-1.5-flash', 'gemini-1.5-flash-latest'];
+    const models = ['gemini-pro', 'gemini-2.5-flash', 'gemini-1.5-flash-latest'];
     
     for (const modelName of models) {
       try {

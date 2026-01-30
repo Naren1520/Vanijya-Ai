@@ -46,7 +46,7 @@ async function getMarketDataFromGemini(market: string, location?: string) {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     // Try the most reliable model name
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     // Very simple prompt to avoid API issues
     const prompt = `Generate market data for ${market} in JSON format with commodities, prices, and insights. Keep it realistic for Indian markets.`;
